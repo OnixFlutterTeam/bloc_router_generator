@@ -9,10 +9,14 @@ Add generated class as part:
 `part 'test.g.dart';`
 
 Add annotation for a class with routes.
+
 Use `BlocRoute` annotation for route with BLoC provider or `UnBlocRoute` without.
+
 Dealare your routes:
-` @BlocRoute(blocType: MyBloC, screen: MyScreen)
-  static const String login = 'login';`
+
+`@BlocRoute(blocType: MyBloC, screen: MyScreen)`
+`static const String login = 'login';`
+ 
   
 Use generated class `AppRoutesBuilder` to access the routes.
 
