@@ -1,3 +1,8 @@
+## 0.0.4
+
+* Fixed generator. 
+* Fixed annotations
+
 ## 0.0.3
 
 * Fixed analysis.

@@ -8,14 +8,14 @@ part of 'app_routes.dart';
 
 class AppRoutesBuilder extends _AppRoutes {
   static Map<String, WidgetBuilder> getRoutes() => {
-        _AppRoutes.login: (context) => BlocProvider(
+        _AppRoutes.loginScreen: (context) => BlocProvider(
               create: (context) => TestBloc(),
-              child: LoginScreen(),
+              child: const LoginScreen(),
             ),
-        _AppRoutes.home: (context) => HomeScreen(),
+        _AppRoutes.homeScreen: (context) => const HomeScreen(),
       };
 
-  static String get loginRoute => _AppRoutes.login;
+  static String get loginScreenRoute => _AppRoutes.loginScreen;
 
-  static String get homeRoute => _AppRoutes.home;
+  static String get homeScreenRoute => _AppRoutes.homeScreen;
 }

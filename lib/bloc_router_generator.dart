@@ -4,4 +4,4 @@ import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
 Builder generateRouter(BuilderOptions options) =>
-    SharedPartBuilder([BlocRouterGenerator()], 'subclass_generator');
+    SharedPartBuilder([BlocRouterGenerator()], 'bloc_router_generator');

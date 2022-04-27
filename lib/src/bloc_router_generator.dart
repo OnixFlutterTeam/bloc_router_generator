@@ -1,7 +1,5 @@
-import 'package:bloc_router_generator/annotations/bloc_route.dart';
-import 'package:bloc_router_generator/annotations/bloc_router.dart';
-import 'package:bloc_router_generator/annotations/unbloc_route.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:bloc_router_generator/annotations.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 import 'model_visitor.dart';
@@ -16,7 +14,6 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
       Element element, ConstantReader annotation, BuildStep buildStep) {
     final visitor = ModelVisitor();
     element.visitChildren(visitor);
-
     final classBuffer = StringBuffer();
 
     _classAnnotationChecker.firstAnnotationOfExact(element,
@@ -75,10 +72,9 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
     if (fieldValue == null) {
       throw 'Field should be a constant with value.';
     }
-
     classBuffer.writeln('$className.${field.name}: (context) => BlocProvider(');
     classBuffer.writeln('create: (context) => $blocType(),');
-    classBuffer.writeln('child: $screenType(),');
+    classBuffer.writeln('child: const $screenType(),');
     classBuffer.writeln('),');
     classBuffer.writeln('\n');
   }
@@ -94,7 +90,7 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
       throw 'Field should be a constant with value.';
     }
 
-    classBuffer.writeln('$className.$fieldValue: (context) => $screenType(),');
+    classBuffer.writeln('$className.${field.name}: (context) => const $screenType(),');
     classBuffer.writeln('\n');
   }
 

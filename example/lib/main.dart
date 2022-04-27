@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: AppRoutesBuilder.getRoutes(),
-      initialRoute: AppRoutesBuilder.loginRoute,
+      initialRoute: AppRoutesBuilder.loginScreenRoute,
     );
   }
 }
@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
-                context, AppRoutesBuilder.homeRoute, (route) => false);
+                context, AppRoutesBuilder.loginScreenRoute, (route) => false);
           },
           child: const Text('Login'),
         ),
