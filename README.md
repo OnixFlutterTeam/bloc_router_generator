@@ -1,15 +1,34 @@
 # bloc_router_generator
 
-A new Flutter project.
+Package for generation named routes with BLoC providers.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Add generated class as part:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`part 'test.g.dart';`
+
+Add annotation for a class with routes.
+Use `BlocRoute` annotation for route with BLoC provider or `UnBlocRoute` without.
+Dealare your routes:
+` @BlocRoute(blocType: MyBloC, screen: MyScreen)
+  static const String login = 'login';`
+  
+Use generated class `AppRoutesBuilder` to access the routes.
+
+Full Example:
+
+```
+@blocRouter
+abstract class _AppRoutes {
+  @BlocRoute(blocType: TestBloc, screen: Container)
+  static const String login = 'login';
+
+  @UnBlocRoute(screen: Container)
+  static const String signUp = 'signUp';
+}
+```
+To avoid issues also add bloc import to your routes class.
+
+`import 'package:flutter_bloc/flutter_bloc.dart';`
 

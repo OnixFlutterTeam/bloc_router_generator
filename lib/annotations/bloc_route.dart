@@ -1,9 +1,9 @@
 class BlocRoute {
-  final Type blocType;
+  final Type bloc;
   final Type screen;
 
   const BlocRoute({
-    required this.blocType,
+    required this.bloc,
     required this.screen,
   });
 }

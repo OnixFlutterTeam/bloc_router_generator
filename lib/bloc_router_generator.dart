@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:bloc_router_generator/src/bloc_router_generator.dart';
 import 'package:build/build.dart';

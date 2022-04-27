@@ -1,10 +1,9 @@
 import 'package:bloc_router_generator/annotations/bloc_route.dart';
 import 'package:bloc_router_generator/annotations/bloc_router.dart';
 import 'package:bloc_router_generator/annotations/unbloc_route.dart';
-import 'package:build/src/builder/build_step.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
-
 import 'model_visitor.dart';
 
 const _classAnnotationChecker = TypeChecker.fromRuntime(BlocRouter);
@@ -12,15 +11,16 @@ const _fieldAnnotationBlocChecker = TypeChecker.fromRuntime(BlocRoute);
 const _fieldAnnotationUnBlocChecker = TypeChecker.fromRuntime(UnBlocRoute);
 
 class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
-  // 1
   @override
   String generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
-    // 2
     final visitor = ModelVisitor();
     element.visitChildren(visitor);
 
     final classBuffer = StringBuffer();
+
+    _classAnnotationChecker.firstAnnotationOfExact(element,
+        throwOnUnresolved: true);
 
     var clearClassName = visitor.className?.replaceFirst('_', '');
     classBuffer.writeln(
@@ -101,7 +101,7 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
   String _getFieldBloc(TypeChecker checker, FieldElement field) {
     return checker
             .firstAnnotationOfExact(field)
-            ?.getField('blocType')
+            ?.getField('bloc')
             ?.toTypeValue()
             ?.element
             ?.name ??
