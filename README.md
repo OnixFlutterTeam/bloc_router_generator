@@ -2,10 +2,6 @@
 
 Package for generation named routes with BLoC providers.
 
-## Installing
-
-Add package to `dependencies` and `dev_dependencies`
-
 ## Usage
 
 Add generated class as part:
