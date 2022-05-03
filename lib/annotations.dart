@@ -1,4 +1,3 @@
-
 const blocRouter = BlocRouter();
 
 class BlocRouter {
@@ -11,6 +10,16 @@ class BlocRoute {
 
   const BlocRoute({
     required this.bloc,
+    required this.screen,
+  });
+}
+
+class MultiBlocRoute {
+  final List<Type> blocs;
+  final Type screen;
+
+  const MultiBlocRoute({
+    required this.blocs,
     required this.screen,
   });
 }

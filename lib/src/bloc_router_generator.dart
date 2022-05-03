@@ -7,6 +7,8 @@ import 'model_visitor.dart';
 const _classAnnotationChecker = TypeChecker.fromRuntime(BlocRouter);
 const _fieldAnnotationBlocChecker = TypeChecker.fromRuntime(BlocRoute);
 const _fieldAnnotationUnBlocChecker = TypeChecker.fromRuntime(UnBlocRoute);
+const _fieldAnnotationMultiBlocChecker =
+    TypeChecker.fromRuntime(MultiBlocRoute);
 
 class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
   @override
@@ -45,6 +47,12 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
           _fieldAnnotationUnBlocChecker.hasAnnotationOf(field);
       if (hasUnBlocAnnotations) {
         _processUnBlocRoute(className, field, classBuffer);
+      }
+
+      final hasMultiBlocAnnotations =
+          _fieldAnnotationMultiBlocChecker.hasAnnotationOf(field);
+      if (hasMultiBlocAnnotations) {
+        _processMultiBlocRoute(className, field, classBuffer);
       }
     }
     classBuffer.writeln('};');
@@ -90,8 +98,56 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
       throw 'Field should be a constant with value.';
     }
 
-    classBuffer.writeln('$className.${field.name}: (context) => const $screenType(),');
+    classBuffer
+        .writeln('$className.${field.name}: (context) => const $screenType(),');
     classBuffer.writeln('\n');
+  }
+
+  void _processMultiBlocRoute(
+      String? className, FieldElement field, StringBuffer classBuffer) {
+    var blocTypes = _getBlocsListField(_fieldAnnotationMultiBlocChecker, field);
+    print('blocTypes:${blocTypes.join(',')}');
+    var hasEmptyType = blocTypes.where((element) => element.isEmpty).isNotEmpty;
+    if (blocTypes.isEmpty || hasEmptyType) {
+      throw 'BlocTypes List not provided.';
+    }
+    var screenType = _getFieldScreen(_fieldAnnotationMultiBlocChecker, field);
+    if (screenType.isEmpty) {
+      throw 'ScreenType not provided.';
+    }
+
+    var fieldValue = field.computeConstantValue()?.toStringValue();
+    if (fieldValue == null) {
+      throw 'Field should be a constant with value.';
+    }
+    classBuffer
+        .writeln('$className.${field.name}: (context) => MultiBlocProvider(');
+    classBuffer.writeln('providers: [');
+    for (String blocType in blocTypes) {
+      classBuffer.writeln('BlocProvider(');
+      classBuffer.writeln('create: (context) => $blocType(),');
+      classBuffer.writeln('),');
+    }
+    classBuffer.writeln('],');
+    classBuffer.writeln('child: const $screenType(),');
+    classBuffer.writeln('),');
+    classBuffer.writeln('\n');
+    /*  MultiBlocProvider(
+        providers: [
+          BlocProvider<LocationUpdatesBloc>(
+            create: (BuildContext context) => LocationUpdatesBloc(),
+          ),
+          BlocProvider<NotificationBloc>(
+            create: (BuildContext context) => NotificationBloc(),
+          )
+        ],
+    */
+
+    /* classBuffer.writeln('$className.${field.name}: (context) => BlocProvider(');
+    classBuffer.writeln('create: (context) => $blocType(),');
+    classBuffer.writeln('child: const $screenType(),');
+    classBuffer.writeln('),');*/
+    // classBuffer.writeln('\n');
   }
 
   String _getFieldBloc(TypeChecker checker, FieldElement field) {
@@ -102,6 +158,16 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
             ?.element
             ?.name ??
         '';
+  }
+
+  List<String> _getBlocsListField(TypeChecker checker, FieldElement field) {
+    return checker
+            .firstAnnotationOfExact(field)
+            ?.getField('blocs')
+            ?.toListValue()
+            ?.map((e) => e.toTypeValue()?.element?.name ?? '')
+            .toList() ??
+        List.empty();
   }
 
   String _getFieldScreen(TypeChecker checker, FieldElement field) {

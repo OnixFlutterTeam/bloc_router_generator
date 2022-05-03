@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Added `MultiBlocProvider` support.
+
 ## 0.0.4
 
 * Fixed generator. 

@@ -22,6 +22,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: AppRoutesBuilder.loginScreenRoute,
     );
   }
+
 }
 
 class LoginScreen extends StatelessWidget {

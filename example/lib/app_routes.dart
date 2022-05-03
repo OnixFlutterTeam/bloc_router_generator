@@ -12,6 +12,9 @@ abstract class _AppRoutes {
   @BlocRoute(bloc: TestBloc, screen: LoginScreen)
   static const loginScreen = 'login_screen';
 
+  @MultiBlocRoute(blocs: [TestBloc, TestBloc], screen: LoginScreen)
+  static const multiBlocLogin = 'multi_bloc_login';
+
   @UnBlocRoute(screen: HomeScreen)
   static const homeScreen = 'home_screen';
 }
