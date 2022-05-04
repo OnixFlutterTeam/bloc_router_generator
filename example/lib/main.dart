@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'app_routes.dart';
 
 void main() {
@@ -22,11 +21,12 @@ class _MyAppState extends State<MyApp> {
       initialRoute: AppRoutesBuilder.loginScreenRoute,
     );
   }
-
 }
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
+
+  String test = '';
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

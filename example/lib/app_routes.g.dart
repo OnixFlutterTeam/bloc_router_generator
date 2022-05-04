@@ -10,7 +10,7 @@ class AppRoutesBuilder extends _AppRoutes {
   static Map<String, WidgetBuilder> getRoutes() => {
         _AppRoutes.loginScreen: (context) => BlocProvider(
               create: (context) => TestBloc(),
-              child: const LoginScreen(),
+              child: LoginScreen(),
             ),
         _AppRoutes.multiBlocLogin: (context) => MultiBlocProvider(
               providers: [
@@ -21,9 +21,9 @@ class AppRoutesBuilder extends _AppRoutes {
                   create: (context) => TestBloc(),
                 ),
               ],
-              child: const LoginScreen(),
+              child: LoginScreen(),
             ),
-        _AppRoutes.homeScreen: (context) => const HomeScreen(),
+        _AppRoutes.homeScreen: (context) => HomeScreen(),
       };
 
   static String get loginScreenRoute => _AppRoutes.loginScreen;

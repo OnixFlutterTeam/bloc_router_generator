@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Resolved screen not `const` issue.
+
 ## 0.0.5
 
 * Added `MultiBlocProvider` support.

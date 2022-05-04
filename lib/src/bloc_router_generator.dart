@@ -82,7 +82,7 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
     }
     classBuffer.writeln('$className.${field.name}: (context) => BlocProvider(');
     classBuffer.writeln('create: (context) => $blocType(),');
-    classBuffer.writeln('child: const $screenType(),');
+    classBuffer.writeln('child: $screenType(),');
     classBuffer.writeln('),');
     classBuffer.writeln('\n');
   }
@@ -99,14 +99,13 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
     }
 
     classBuffer
-        .writeln('$className.${field.name}: (context) => const $screenType(),');
+        .writeln('$className.${field.name}: (context) => $screenType(),');
     classBuffer.writeln('\n');
   }
 
   void _processMultiBlocRoute(
       String? className, FieldElement field, StringBuffer classBuffer) {
     var blocTypes = _getBlocsListField(_fieldAnnotationMultiBlocChecker, field);
-    print('blocTypes:${blocTypes.join(',')}');
     var hasEmptyType = blocTypes.where((element) => element.isEmpty).isNotEmpty;
     if (blocTypes.isEmpty || hasEmptyType) {
       throw 'BlocTypes List not provided.';
@@ -120,6 +119,7 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
     if (fieldValue == null) {
       throw 'Field should be a constant with value.';
     }
+
     classBuffer
         .writeln('$className.${field.name}: (context) => MultiBlocProvider(');
     classBuffer.writeln('providers: [');
@@ -129,25 +129,9 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
       classBuffer.writeln('),');
     }
     classBuffer.writeln('],');
-    classBuffer.writeln('child: const $screenType(),');
+    classBuffer.writeln('child: $screenType(),');
     classBuffer.writeln('),');
     classBuffer.writeln('\n');
-    /*  MultiBlocProvider(
-        providers: [
-          BlocProvider<LocationUpdatesBloc>(
-            create: (BuildContext context) => LocationUpdatesBloc(),
-          ),
-          BlocProvider<NotificationBloc>(
-            create: (BuildContext context) => NotificationBloc(),
-          )
-        ],
-    */
-
-    /* classBuffer.writeln('$className.${field.name}: (context) => BlocProvider(');
-    classBuffer.writeln('create: (context) => $blocType(),');
-    classBuffer.writeln('child: const $screenType(),');
-    classBuffer.writeln('),');*/
-    // classBuffer.writeln('\n');
   }
 
   String _getFieldBloc(TypeChecker checker, FieldElement field) {
@@ -179,4 +163,5 @@ class BlocRouterGenerator extends GeneratorForAnnotation<BlocRouter> {
             ?.name ??
         '';
   }
+
 }
